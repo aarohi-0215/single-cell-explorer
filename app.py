@@ -61,9 +61,10 @@ def find_counts(adata):
 
 
 def mito_mask(var_names):
-    """Species-agnostic mitochondrial gene detection."""
+    """Species-agnostic mitochondrial gene detection. Returns a plain numpy bool array."""
     up = pd.Index(var_names).str.upper()
-    return up.str.startswith("MT-") | up.str.startswith("MT.") | up.str.startswith("MT:")
+    mask = up.str.startswith("MT-") | up.str.startswith("MT.") | up.str.startswith("MT:")
+    return np.asarray(mask, dtype=bool)
 
 
 @st.cache_resource(show_spinner="Loading demo (3k PBMC) data...")
@@ -96,7 +97,8 @@ def qc_frame(cache_key, _adata):
     counts = np.asarray(X.sum(axis=1)).ravel() if sp.issparse(X) else np.asarray(X).sum(axis=1)
     genes = np.asarray((X > 0).sum(axis=1)).ravel() if sp.issparse(X) else (np.asarray(X) > 0).sum(axis=1)
     if mt.sum() > 0:
-        Xmt = X[:, mt.values]
+        idx = np.where(mt)[0]
+        Xmt = X[:, idx]
         mt_counts = np.asarray(Xmt.sum(axis=1)).ravel() if sp.issparse(Xmt) else np.asarray(Xmt).sum(axis=1)
         pct_mt = 100.0 * mt_counts / np.maximum(counts, 1)
     else:
