@@ -4,7 +4,7 @@ An interactive dashboard for **quality control, dimensionality reduction, cluste
 marker-gene exploration** of UMI-based (droplet) single-cell RNA-seq data. Upload your own
 `.h5ad` count matrix or use the built-in 3k PBMC demo. Built with **Scanpy** and **Streamlit**.
 
-**Live app:** <add your Streamlit link here after deploying>
+**Live app:** https://single-cell-explorer-pdmkf4omg2bjyixcytoqwm.streamlit.app/
 
 ## Features
 - **Upload or demo:** bring your own AnnData `.h5ad`, or explore the 10x 3k PBMC demo.
